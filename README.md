@@ -50,3 +50,10 @@ Built for **WPForms** and **Contact Form 7** compatibility.
 ## ⚖️ License
 MIT License — free for personal or commercial use.
 
+---
+### 🌐 Web Development Portfolio
+Although I’m transitioning into cybersecurity, I continue to freelance part-time in web development, specializing in secure WordPress builds and website optimization.
+
+**Portfolio:** [https://dillon-porter.github.io/portfolio/](https://dillon-porter.github.io/portfolio/)
+
+
