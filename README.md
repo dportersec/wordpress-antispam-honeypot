@@ -1,59 +1,34 @@
-# WordPress Anti-Spam Honeypot (T709 AntiSpam)
+# 🛡️ WordPress Anti-Spam Honeypot (T709 AntiSpam)
 
-A lightweight WordPress security plugin that protects forms from spam bots using a **server-side honeypot** and **time-trap heuristic**.  
-Built for **WPForms** and **Contact Form 7** compatibility.
+A lightweight **WordPress security plugin** that prevents spam submissions on forms using a **server-side honeypot**, **time-trap heuristic**, and **IP-based rate limiting**.  
+Fully compatible with **WPForms** and **Contact Form 7** — no CAPTCHA, no friction for users.
 
 ---
 
 ## 🔐 Features
-- Invisible honeypot field that catches automated bots
-- Time-trap validation — rejects forms submitted too quickly
-- Works with WPForms and Contact Form 7
-- Server-side PHP validation (not just JavaScript)
-- No UX disruption — users never see a CAPTCHA
-- Easy drop-in MU plugin, no settings page needed
+
+- 🕵️‍♂️ **Invisible honeypot** field to trap automated bots  
+- ⏱️ **Time-trap protection** (blocks <3-second submissions)  
+- 🧩 **Supports WPForms & Contact Form 7** out of the box  
+- 🧠 **Server-side PHP validation** (not reliant on JavaScript)  
+- 💾 **Logging system** to record IP, timestamp, reason, and user agent  
+- 🪶 **Zero user disruption** — no visible fields or CAPTCHA  
+- ⚙️ **Optional rate limiting** (max 3 submissions / 5-minute window)  
+- 🖥️ **Admin dashboard** for reviewing, downloading, and clearing spam logs  
 
 ---
 
 ## 🧠 How It Works
-1. Injects two hidden fields:  
-   - `website_url` (honeypot)  
-   - `t709_ts` (timestamp)
-2. Validates on submission:
-   - If the honeypot field is filled → **spam**
-   - If the form was submitted too fast (<3 seconds) → **spam**
-3. Rejection occurs server-side, preventing junk emails from being sent.
 
----
+1. Injects two hidden fields into supported forms:  
+   - `website_url` → Honeypot (must stay empty)  
+   - `t709_ts` → Timestamp (when form is rendered)  
 
-## 📁 Installation
-1. Copy `t709-antispam.php` to `/wp-content/mu-plugins/`
-2. Save changes — it activates automatically.
-3. Works with both WPForms and Contact Form 7 out of the box.
+2. On submission, the plugin validates:  
+   - Honeypot filled → **Spam**  
+   - Form submitted too quickly (<3 seconds) → **Spam**  
+   - IP exceeded rate-limit threshold → **Spam**  
+   - Keyword match (if configured) → **Spam**  
 
----
-
-## 🧰 Future Roadmap
-- Admin settings page to adjust time threshold
-- Logging of blocked IPs & user agents
-- Rate-limiting by IP (3 submissions per 5 minutes)
-- Cloudflare Turnstile integration
-
----
-
-## 🧑‍💻 Author
-**Dillon Porter**  
-[GitHub](https://github.com/dportersec) | [Portfolio](https://sites.google.com/view/dillonporter/home)
-
----
-
-## ⚖️ License
-MIT License — free for personal or commercial use.
-
----
-### 🌐 Web Development Portfolio
-Although I’m transitioning into cybersecurity, I continue to freelance part-time in web development, specializing in secure WordPress builds and website optimization.
-
-**Portfolio:** [https://dillon-porter.github.io/portfolio/](https://dillon-porter.github.io/portfolio/)
-
-
+3. If spam is detected, the message is **blocked server-side** — preventing junk emails or database entries.  
+   Blocked attempts are logged here:

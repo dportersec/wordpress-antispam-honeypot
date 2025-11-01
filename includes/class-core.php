@@ -72,6 +72,23 @@ class Core {
         return count( $data ) > $max;
     }
 
+    private function t709_log_block( $reason, $data = [] ) {
+    $log_dir  = WP_CONTENT_DIR . '/uploads';
+    if ( ! is_dir( $log_dir ) ) { @wp_mkdir_p( $log_dir ); }
+
+    $log_file = $log_dir . '/t709-antispam-log.jsonl'; // one JSON per line
+    $entry = [
+        'time'   => current_time( 'mysql' ),
+        'ip'     => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+        'reason' => $reason,
+        'ua'     => $_SERVER['HTTP_USER_AGENT'] ?? '',
+    ];
+    if ( ! empty( $data ) ) { $entry['fields'] = array_intersect_key( $data, array_flip(['your-name','your-email']) ); }
+
+    @file_put_contents( $log_file, wp_json_encode( $entry ) . PHP_EOL, FILE_APPEND | LOCK_EX );
+}
+
+
     public function violates_honeypot_or_time( array $post ) : bool {
         $hp = $this->settings['honeypot_name'] ?? 'website_url';
         $tn = $this->settings['timestamp_name'] ?? 't709_ts';
